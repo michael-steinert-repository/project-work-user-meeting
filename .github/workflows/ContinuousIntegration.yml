@@ -1,0 +1,72 @@
+name: Continuous Integration with Maven
+
+on:
+  push:
+    branches: [ main ]
+
+env:
+  # Application
+  APPLICATION_NAME: user-meeting
+  # Postgres
+  POSTGRESQL_VERSION: 12.5
+  POSTGRESQL_IMAGE: postgres:12.5
+  POSTGRESQL_USER: postgres
+  POSTGRESQL_PASSWORD: postgres
+  # Specific Databases
+  POSTGRESQL_DB: user_meeting
+  # Java
+  JAVA_VERSION: 1.11
+  # DockerHub
+  DOCKER_HUB_USERNAME: michaelxsteinertxcontainer
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:12.5
+        env:
+          POSTGRES_DB: ${{ env.POSTGRESQL_DB }}
+          POSTGRES_USER: ${{ env.POSTGRESQL_USER }}
+          POSTGRES_PASSWORD: ${{ env.POSTGRESQL_PASSWORD }}
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      - name: Messaging Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          text: 'Continuous Integration for UserMeeting ongoing'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2.3.4
+        
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ env.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Grant Execute Permission for mvnw
+        run: chmod +x ./mvnw
+
+      - name: Maven Clean Package and Push to Dockerhub
+        run: ./mvnw clean package -P build-and-push-container-to-dockerhub
+         
+      - name: Messaging Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+          text: 'Pushed ${{env.APPLICATION_NAME}} to DockerHub'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
