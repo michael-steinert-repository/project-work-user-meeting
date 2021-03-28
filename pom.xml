@@ -22,6 +22,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <spring-cloud.version>Hoxton.SR10</spring-cloud.version>
         <start-class>de.share_your_idea.user_meeting.UserMeetingApplication</start-class>
+        <docker.username>michaelxsteinertxcontainer</docker.username>
+        <app.image.name>user-meeting-image</app.image.name>
+        <app.image.tag>latest</app.image.tag>
     </properties>
 
     <dependencies>
@@ -131,27 +134,77 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>dockerfile-maven-plugin</artifactId>
-                <version>1.4.13</version>
-                <executions>
-                    <execution>
-                        <id>default</id>
-                        <goals>
-                            <goal>build</goal>
-                            <goal>push</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <repository>${project.artifactId}</repository>
-                    <tag>${project.version}</tag>
-                    <buildArgs>
-                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
-                    </buildArgs>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>build-container-local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                        <version>1.4.13</version>
+                        <executions>
+                            <execution>
+                                <id>default</id>
+                                <goals>
+                                    <goal>build</goal>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <repository>${project.artifactId}</repository>
+                            <tag>${project.version}</tag>
+                            <buildArgs>
+                                <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-and-push-container-to-dockerhub</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.google.cloud.tools</groupId>
+                        <artifactId>jib-maven-plugin</artifactId>
+                        <version>2.5.2</version>
+                        <configuration>
+                            <container>
+                                <ports>
+                                    <port>8082</port>
+                                </ports>
+                                <format>OCI</format>
+                            </container>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>push-latest-tag</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <to>
+                                        <image>docker.io/${docker.username}/${app.image.name}:${app.image.tag}</image>
+                                    </to>
+                                </configuration>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

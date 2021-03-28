@@ -1,11 +1,11 @@
 ## Setup
 
-### Application Server:
+### Application Server
 * The compiled Microservice *User-Meeting* already contains the Application Server and can be executed directly inside a Container that has Java version 11 installed.
 
 * The running Microservices is available at the URL http://localhost:8082.
 
-### Database:
+### Database
 
 * The Microservice *User-Meeting* needs its own Database. Therefore an Instance of the PostgreSQL Database *user_meeting* is set up on a Container.
 
@@ -21,16 +21,29 @@ http://localhost:8082/user-meeting/
 | POST | /unregister-from-meeting/{meetingName} | Unregisters an User from a Meeting with MeetingName and returns the Meeting |
 | GET | /find-all-user-meetings | Returns all existing Meetings |
 | GET | /find-user-by-username/{username} | Returns an User with existing Username |
+
+### Jib Maven Plugin
+
+*Jib is a deamonless Maven Plugin for building Docker and OCI Images for Java Applications.*
+
+* Build an Image with Jib and store it locally
+    * docker login
+    * mvnw clean install -P jib-push-to-local
+
+* Build an Image with Jib and push it to Docker Hub
+    * docker login
+    * mvnw clean install -P jib-push-to-dockerhub
 ___
 
 ## Einrichtung
-### Anwendungsserver:
+
+### Anwendungsserver
 
 * Der kompilierte Microservice *User-Meeting* enthält bereist den Anwendungsserver und kann direkt innerhalb eines Containers ausgeführt werden, welcher die Java-Version 11 installiert hat.
 
 * Der laufende Microservices ist erreichbar unter der URL http://localhost:8082.
 
-### Datenbank:
+### Datenbank
 
 * Der Microservice *User-Meeting* benötigt seine eigene Datenbank. Dafür wird auf einem Container eine Instanz der Datenbank PostgreSQL *user_meeting* eingerichtet.
 
