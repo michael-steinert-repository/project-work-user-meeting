@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Add UserMeetingEntity</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">Add an UserMeetingEntity</h1>
+            <div class="row">
+                <div class="col text-center">
+                    <form th:action="@{/addUserMeeting}" th:object="${userMeetingEntity}" method="POST">
+                        <div class="form-group">
+                            <label for="userMeetingNameInput">UserMeetingName</label>
+                            <input id="userMeetingNameInput" type="text" th:field="*{meetingName}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="communicationLinkInput">CommunicationLink</label>
+                            <input id="communicationLinkInput" type="text" th:field="*{communicationLink}" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add an UserMeetingEntity</button>
+                    </form>
+                    <hr>
+                    <a th:href="@{/addUser}">Add User</a><br>
+                    <a th:href="@{/userList}">Show List of Users</a><br>
+                    <a th:href="@{/userMeetingList}">Show List of User-Meetings</a><br>
+                    <a th:href="@{/index}">Index</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,36 @@
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://database-server:5432/user_meeting
+    username: postgres
+    password: postgres
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+
+spring:
+  application:
+    name: USER-MEETING-SERVICE
+  zipkin:
+    base-url: http://tracing-system:9411/
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+server:
+  port : 8082
+
+#logging:
+  #file:
+    #path: logs
+    #name: user-meeting.log
+    #name: C:/Users/stein/Desktop/project-work/ELK-Stack/logs/user-meeting.log

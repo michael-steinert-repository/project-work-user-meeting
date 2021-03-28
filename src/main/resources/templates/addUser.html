@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Add UserEntity</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">Add an UserEntity</h1>
+            <div class="row">
+                <div class="col text-center">
+                    <form th:action="@{/addUser}" th:object="${userEntity}" method="POST">
+                        <div class="form-group">
+                            <label for="usernameInput">Username</label>
+                            <input id="usernameInput" type="text" th:field="*{username}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="userRoleInput">UserRole</label>
+                            <input id="userRoleInput" type="text" th:field="*{userRole}" />
+                        </div>
+                        <div class="form-group">
+                            <label for="authorizationTokenInput">Token</label>
+                            <input id="authorizationTokenInput" type="text" th:field="*{authorizationToken}" />
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add an UserEntity</button>
+                    </form>
+                    <hr>
+                    <a th:href="@{/addUserMeeting}">Add User-Meeting</a><br>
+                    <a th:href="@{/userList}">Show List of Users</a><br>
+                    <a th:href="@{/userMeetingList}">Show List of User-Meetings</a><br>
+                    <a th:href="@{/index}">Index</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

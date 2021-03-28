@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>User Meeting</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="/webjars/bootstrap/4.6.0/css/bootstrap-theme.min.css" />
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="text-center">Welcome to Service</h1>
+            <div class="row">
+                <div class="col text-center">
+                    <h2 th:utext="${serviceName}">Service Name</h2>
+                    <hr>
+                    <a th:href="@{/addUser}">Add User</a><br>
+                    <a th:href="@{/addUserMeeting}">Add User-Meeting</a><br>
+                    <a th:href="@{/userList}">Show List of Users</a><br>
+                    <a th:href="@{/userMeetingList}">Show List of User-Meetings</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
