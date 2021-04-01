@@ -23,9 +23,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /* Integration-Test for UserMeetingController */
 @AutoConfigureMockMvc
 @SpringBootTest
-@PropertySource("classpath:application.yml")
-@PropertySource("classpath:bootstrap.yml")
-@Disabled
+@PropertySource("classpath:application-it.yml")
+@PropertySource("classpath:bootstrap-it.yml")
 public class UserMeetingIT {
     @Autowired
     private MockMvc mockMvc;
