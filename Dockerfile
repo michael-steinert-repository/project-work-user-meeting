@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/java:11
+FROM openjdk:11-jre-slim
 
 VOLUME /tmp
 
