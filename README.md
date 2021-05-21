@@ -22,6 +22,16 @@ http://localhost:8082/user-meeting/
 | GET | /find-all-user-meetings | Returns all existing Meetings |
 | GET | /find-user-by-username/{username} | Returns an User with existing Username |
 
+#### OpenAPI v3
+The following Link shows the Documentation in the OpenAPI Standard:
+
+http://localhost:8082/v3/api-docs.yaml
+
+#### Swagger UI
+The following Link shows the Documentation in the Swagger UI:
+
+http://localhost:8082/swagger-ui.html
+
 ### Jib Maven Plugin
 
 *Jib is a deamonless Maven Plugin for building Docker and OCI Images for Java Applications.*
